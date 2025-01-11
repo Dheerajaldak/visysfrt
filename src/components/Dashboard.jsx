@@ -103,6 +103,7 @@ const Dashboard = () => {
               {/* Dropdown Content */}
               {isDropdownOpen && (
                 <ul className="absolute text-white left-0 w-full mt-2 bg-gray-700 rounded-md shadow-lg z-50">
+                   {/* form1 */}
                   <li>
                     <NavLink
                       to="/dashboard/forms1"
@@ -111,6 +112,7 @@ const Dashboard = () => {
                       <span className="block">Form Field 1</span>
                     </NavLink>
                   </li>
+                  {/* form2 */}
                   <li>
                     <NavLink
                       to="/dashboard/forms2"
@@ -119,6 +121,7 @@ const Dashboard = () => {
                       <span className="block">Form Field 2</span>
                     </NavLink>
                   </li>
+                  {/* form3 */}
                   <li>
                     <NavLink
                       to="/dashboard/forms3"
@@ -127,6 +130,7 @@ const Dashboard = () => {
                       <span className="block">Form Field 3</span>
                     </NavLink>
                   </li>
+                  {/* form4 */}
                   <li>
                     <NavLink
                       to="/dashboard/forms4"
@@ -135,6 +139,7 @@ const Dashboard = () => {
                       <span className="block">Form Field 4</span>
                     </NavLink>
                   </li>
+                  {/* form5 */}
                   <li>
                     <NavLink
                       to="/dashboard/forms5"
@@ -143,12 +148,22 @@ const Dashboard = () => {
                       <span className="block">Form Field 5</span>
                     </NavLink>
                   </li>
+                  {/* form6 */}
                   <li>
                     <NavLink
                       to="/dashboard/forms6"
                       className="flex items-center p-2 hover:bg-gray-600"
                     >
                       <span className="block">Form Field 6</span>
+                    </NavLink>
+                  </li>
+                  {/* form7-- */}
+                  <li>
+                    <NavLink
+                      to="/dashboard/forms7"
+                      className="flex items-center p-2 hover:bg-gray-600"
+                    >
+                      <span className="block">Form Field 7</span>
                     </NavLink>
                   </li>
                 </ul>

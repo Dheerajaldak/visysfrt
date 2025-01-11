@@ -22,7 +22,7 @@ const Form5 = () => {
         e.preventDefault();
         try {
             // Sending data to the backend server (Express API)
-            await axios.post("http://localhost:5000/api/forms/form5", formData); // Updated URL
+            await axios.post("http://localhost:5000/api/forms/forms5", formData); // Updated URL
             alert("Data Submitted Successfully");
         } catch (error) {
             alert("Error submitting data");

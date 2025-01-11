@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 function Form1() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ function Form1() {
     agree_terms: false,
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -19,17 +24,57 @@ function Form1() {
     }));
   };
 
+  const validateForm = () => {
+    const { name, email, phone, address, date_of_birth, gender, agree_terms } = formData;
+    if (!name || !email || !phone || !address || !date_of_birth || !gender || !agree_terms) {
+      setErrorMessage("All fields are required.");
+      return false;
+    }
+    setErrorMessage('');
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:5000/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    alert(data.message);
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setSuccessMessage('');
+    
+    try {
+      const response = await axios.post('http://localhost:5000/api/forms/forms1', formData);
+
+      if (response.status === 201) {
+        setSuccessMessage(response.data.message); // Show success message
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          address: '',
+          date_of_birth: '',
+          gender: '',
+          agree_terms: false,
+        }); // Reset form
+      } else {
+        setErrorMessage('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      if (error.response) {
+        // If the error is coming from the backend
+        console.error('Backend error:', error.response);
+        setErrorMessage(error.response.data.message || 'Error submitting the form.');
+      } else if (error.request) {
+        // If no response was received from the backend
+        console.error('No response received:', error.request);
+        setErrorMessage('Server did not respond. Please try again later.');
+      } else {
+        // If the error was caused by setting up the request
+        console.error('Request error:', error.message);
+        setErrorMessage('Error connecting to the server.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -37,6 +82,7 @@ function Form1() {
       <h2 className="text-2xl font-bold text-center mb-6">User Form 1</h2>
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
+          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Name</label>
             <input
@@ -45,9 +91,11 @@ function Form1() {
               value={formData.name}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="Enter your name"
             />
           </div>
 
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
@@ -56,9 +104,11 @@ function Form1() {
               value={formData.email}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="Enter your email"
             />
           </div>
 
+          {/* Phone */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Phone</label>
             <input
@@ -67,9 +117,11 @@ function Form1() {
               value={formData.phone}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="Enter your phone number"
             />
           </div>
 
+          {/* Address */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Address</label>
             <textarea
@@ -77,9 +129,11 @@ function Form1() {
               value={formData.address}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="Enter your address"
             />
           </div>
 
+          {/* Date of Birth */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
             <input
@@ -91,6 +145,7 @@ function Form1() {
             />
           </div>
 
+          {/* Gender */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Gender</label>
             <select
@@ -106,6 +161,7 @@ function Form1() {
             </select>
           </div>
 
+          {/* Agree Terms */}
           <div>
             <label className="flex items-center">
               <input
@@ -119,11 +175,21 @@ function Form1() {
             </label>
           </div>
 
+          {/* Error & Success Message */}
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+          )}
+          {successMessage && (
+            <div className="text-green-500 text-sm mt-2">{successMessage}</div>
+          )}
+
+          {/* Submit Button */}
           <button
             type="submit"
             className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            disabled={isSubmitting}
           >
-            Submit
+            {isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </form>

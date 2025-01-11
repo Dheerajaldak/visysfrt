@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Form3 = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +8,7 @@ const Form3 = () => {
     receiveNewsletter: false,
   });
 
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -16,10 +17,19 @@ const Form3 = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Contact Preferences Submitted:', formData);
-    // Handle form submission (e.g., send data to an API)
+
+    try {
+      // Send form data to the backend API
+      const response = await axios.post('http://localhost:5000/api/forms/forms3', formData);
+      console.log('Form data submitted successfully:', response.data);
+      alert('Data submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting form data:', error);
+      alert('Error submitting data.');
+    }
   };
 
   return (

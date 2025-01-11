@@ -14,6 +14,8 @@ import Form2 from './forms/Form2';
 import Form3 from './forms/Form3';
 import Form4 from './forms/Form4';
 import Form5 from './forms/Form5';
+import Form6 from './forms/Form6';
+import Form7 from './forms/Form7';
 
 // Protected Route component to protect dashboard and nested routes
 const ProtectedRoute = ({ element }) => {
@@ -47,6 +49,9 @@ function App() {
             <Route path="forms3" element={<Form3/>}/>
             <Route path="forms4" element={<Form4/>}/>
             <Route path="forms5" element={<Form5/>}/>
+            <Route path="forms6" element={<Form6/>}/>
+            <Route path="forms7" element={<Form7/>}/>
+            
           </Route>
           
           {/* Catch-all route for undefined pages */}

@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Form4 = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +9,7 @@ const Form4 = () => {
     email: '',
   });
 
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -17,15 +18,25 @@ const Form4 = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Emergency Contact Submitted:', formData);
-    // Handle form submission (e.g., send data to an API)
+
+    try {
+      // Send form data to the backend API
+      const response = await axios.post('http://localhost:5000/api/forms/forms4', formData);
+      // console.log('Form data submitted successfully:', response.data);
+      alert('Data submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting form data:', error);
+      alert('Error submitting data.');
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-6">Emergency Contact</h2>
+      
       <div className="mb-4">
         <label htmlFor="emergencyContactName" className="block text-gray-700">Emergency Contact Name</label>
         <input
@@ -38,6 +49,7 @@ const Form4 = () => {
           placeholder="Emergency Contact Name"
         />
       </div>
+
       <div className="mb-4">
         <label htmlFor="relationship" className="block text-gray-700">Relationship</label>
         <input
@@ -50,6 +62,7 @@ const Form4 = () => {
           placeholder="Relationship"
         />
       </div>
+
       <div className="mb-4">
         <label htmlFor="phone" className="block text-gray-700">Phone Number</label>
         <input
@@ -62,6 +75,7 @@ const Form4 = () => {
           placeholder="Phone Number"
         />
       </div>
+
       <div className="mb-4">
         <label htmlFor="email" className="block text-gray-700">Email</label>
         <input
@@ -74,6 +88,7 @@ const Form4 = () => {
           placeholder="Email"
         />
       </div>
+
       <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600">
         Save Emergency Contact
       </button>
